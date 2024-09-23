@@ -49,8 +49,6 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
-import com.android.billingclient.api.PriceChangeConfirmationListener;
-import com.android.billingclient.api.PriceChangeFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
@@ -63,7 +61,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class GodotGooglePlayBilling extends GodotPlugin implements PurchasesUpdatedListener, BillingClientStateListener, PriceChangeConfirmationListener {
+public class GodotGooglePlayBilling extends GodotPlugin implements PurchasesUpdatedListener, BillingClientStateListener {
 
 	private final BillingClient billingClient;
 	private final HashMap<String, SkuDetails> skuDetailsCache = new HashMap<>(); // sku → SkuDetails
@@ -192,6 +190,8 @@ public class GodotGooglePlayBilling extends GodotPlugin implements PurchasesUpda
 	public void onBillingServiceDisconnected() {
 		emitSignal("disconnected");
 	}
+
+	/*
 	@UsedByGodot
 	public Dictionary confirmPriceChange(String sku) {
 		if (!skuDetailsCache.containsKey(sku)) {
@@ -213,6 +213,8 @@ public class GodotGooglePlayBilling extends GodotPlugin implements PurchasesUpda
 		returnValue.put("status", 0); // OK = 0
 		return returnValue;
 	}
+	*/
+
 	@UsedByGodot
 	public Dictionary purchase(String sku) {
 		return purchaseInternal("", sku, 
@@ -280,10 +282,12 @@ public class GodotGooglePlayBilling extends GodotPlugin implements PurchasesUpda
 		}
 	}
 
+	/*
 	@Override
 	public void onPriceChangeConfirmationResult(BillingResult billingResult) {
 		emitSignal("price_change_acknowledged", billingResult.getResponseCode());
 	}
+	*/
 
 	@Override
 	public void onMainResume() {
